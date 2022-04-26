@@ -28,6 +28,7 @@ public class Notification {
         bp.setPadding(new Insets(20,40,20,40));
         //scene
         Scene scene = new Scene(bp, 400, 150);
+        scene.getStylesheets().add("custom.css");
         window.setScene(scene);
         window.showAndWait();
     }

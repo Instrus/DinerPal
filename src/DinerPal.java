@@ -19,7 +19,6 @@ public class DinerPal extends Application
 
     //LinkedList that will hold all sign-ins.
     static LinkedList<Integer> IDs = new LinkedList<Integer>();
-    int ID = 0;
 
     public static void main(String[] args)
     { launch(args); }
@@ -43,9 +42,11 @@ public class DinerPal extends Application
 
         //Layout
         //Title
-        Label DinerPalLabel = new Label("DinerPal");
-        Line line = new Line(0, 0, 800, 0);
-        VBox title = new VBox(DinerPalLabel, line);
+        Label dinerPalLabel = new Label("DinerPal");
+        dinerPalLabel.getStyleClass().add("title-label");
+        Line line = new Line(0, 0, 900, 0);
+        line.setStrokeWidth(2.0);
+        VBox title = new VBox(10, dinerPalLabel, line);
         title.setAlignment(Pos.CENTER);
         //ChooseServerBar
         HBox options = new HBox(50, server);
@@ -54,9 +55,10 @@ public class DinerPal extends Application
         BorderPane mainBP = new BorderPane();
         mainBP.setTop(title); //top
         mainBP.setCenter(options); //center
-        mainBP.setPadding(new Insets(30,30,30,30));
+        mainBP.setPadding(new Insets(30,0,30,0));
         //scene
         Scene selectionScreen = new Scene(mainBP, 900, 500);
+        selectionScreen.getStylesheets().add("custom.css");
         window.setScene(selectionScreen);
         window.show();
     }

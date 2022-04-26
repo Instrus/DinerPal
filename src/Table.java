@@ -10,11 +10,6 @@ public class Table {
     public Table(int tableNumber)
     {
         this.tableNumber = tableNumber;
-        if(numOfGuests == 0)
-        {
-            numOfGuests = GetNumber.display("Please enter number of guests");
-            System.out.println("Guests for table " + tableNumber + ": " + numOfGuests);
-        }
     }
 
     //prints order of table

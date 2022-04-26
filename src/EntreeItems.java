@@ -1,8 +1,11 @@
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
 import java.util.LinkedList;
@@ -69,14 +72,25 @@ public class EntreeItems
 
 
         //Layout
+        Label entreeLabel = new Label("Entrees");
+        Line line = new Line(0, 0, 350, 0);
+        line.setStrokeWidth(2.0);
+        VBox title = new VBox(10, entreeLabel, line);
+        title.setAlignment(Pos.CENTER);
+
         BorderPane screen = new BorderPane();
         VBox menuItems = new VBox(10, burgerButton, spaghettiButton, saladButton, chiliButton);
+        menuItems.setPadding(new Insets(20,10,10,10));
+        menuItems.setAlignment(Pos.TOP_CENTER);
         //Set / Padding
+        screen.setTop(title);
         screen.setCenter(menuItems);
         screen.setBottom(submit);
-        screen.setPadding(new Insets(20,60,20,60));
+        screen.setAlignment(submit, Pos.CENTER);
+        screen.setPadding(new Insets(20,0,20,0));
         //Scene
         Scene scene = new Scene(screen, 350, 550);
+        scene.getStylesheets().add("custom.css");
         window.setScene(scene);
         window.show();
     }

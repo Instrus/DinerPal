@@ -41,6 +41,7 @@ public class GetNumber {
 
         //scene
         Scene scene = new Scene(bp, 350, 150);
+        scene.getStylesheets().add("custom.css");
         window.setScene(scene);
         window.showAndWait();
 

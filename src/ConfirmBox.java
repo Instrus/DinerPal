@@ -36,7 +36,8 @@ public class ConfirmBox {
         VBox confirm = new VBox(10, label, answer);
         confirm.setAlignment(Pos.CENTER);
 
-        Scene scene = new Scene(confirm, 350, 150);
+        Scene scene = new Scene(confirm, 300, 130);
+        scene.getStylesheets().add("custom.css");
         window.setScene(scene);
         window.showAndWait();
 
