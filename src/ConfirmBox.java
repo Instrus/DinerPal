@@ -30,10 +30,10 @@ public class ConfirmBox {
             window.close();
         });
 
-        HBox answer = new HBox(50);
-        answer.getChildren().addAll(yesButton, noButton);
-        answer.setAlignment(Pos.CENTER);
-        VBox confirm = new VBox(10, label, answer);
+        HBox layout = new HBox(50);
+        layout.getChildren().addAll(yesButton, noButton);
+        layout.setAlignment(Pos.CENTER);
+        VBox confirm = new VBox(10, label, layout);
         confirm.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(confirm, 300, 130);
@@ -41,7 +41,7 @@ public class ConfirmBox {
         window.setScene(scene);
         window.showAndWait();
 
-        return ConfirmBox.answer;
+        return answer;
 
     }
 

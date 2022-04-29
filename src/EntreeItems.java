@@ -27,8 +27,7 @@ public class EntreeItems
         Server serverObject = new Server();
         OrderScreen orderScreenOb = new OrderScreen();
 
-        //should keep this because I need to be able to submit or cancel.
-        LinkedList<ItemAndPrice> orderWithPrice = new LinkedList<ItemAndPrice>();
+        LinkedList<ItemAndPrice> orderWithPrice = new LinkedList<>();
 
         //Buttons for menu items.--------------------------------------------------
         Button burgerButton = new Button("Cheeseburger\t$9.99"); //burger

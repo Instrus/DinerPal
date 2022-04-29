@@ -5,6 +5,7 @@ public class Table {
     int numOfGuests = 0;
     LinkedList<ItemAndPrice> orders = new LinkedList<ItemAndPrice>();
     int tableNumber;
+    int employeeID = -1; //default (means nobody took table yet)
 
     //Table creation
     public Table(int tableNumber)

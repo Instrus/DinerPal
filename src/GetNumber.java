@@ -1,3 +1,4 @@
+import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -17,6 +18,7 @@ public class GetNumber {
     public static int display(String message){
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL); //cannot leave page but can x it out.
+        window.setOnCloseRequest(Event::consume);
 
         Label label = new Label(message);
 

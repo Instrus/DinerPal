@@ -1,18 +1,22 @@
-.root{
+.root
+{
  -fx-background-color: #501B1D;
  }
 
-.label{
+.label
+{
  -fx-text-fill: #ADADAD;
  -fx-font: 18px "Arial";
 }
 
-.title-label{
+.title-label
+{
  -fx-text-fill: #ADADAD;
  -fx-font: 32px "Arial";
 }
 
-.table-button{
+.table-button
+{
   -fx-background-radius: 5em;
   -fx-min-width: 90px;
   -fx-min-height: 90px;
@@ -26,15 +30,44 @@
   -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
   }
 
-  .button{
+  .button
+  {
     -fx-background-color: #2E1114;
     -fx-text-fill: #ADADAD;
   }
 
-  .scroll-pane{
+  .scroll-pane
+  {
    -fx-background-color: #501B1D;
   }
 
-.scroll-pane > .viewport  {
+ .scroll-pane > .viewport
+ {
  -fx-background-color: #501B1D;
  }
+
+  .scroll-bar:horizontal, .scroll-bar:vertical
+  {
+      -fx-background-color:transparent;
+  }
+
+  .scroll-bar:horizontal .thumb,
+  .scroll-bar:vertical .thumb
+  {
+      -fx-background-color: #2E1114;
+      -fx-background-radius: 5em;
+  }
+
+
+.toggle-button{
+-fx-background-color: #2E1114;
+-fx-text-fill: #ADADAD;
+}
+
+.toggle-button:selected {
+    -fx-background-color: #2E1114;
+    -fx-border-width: 2px;
+    -fx-border-color: #64485C;
+    -fx-text-fill: #ADADAD;
+}
+

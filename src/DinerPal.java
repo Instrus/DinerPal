@@ -31,13 +31,8 @@ public class DinerPal extends Application
         server.setMinSize(200,60);
 
         server.setOnAction (e -> {
-            int ID = GetNumber.display("Please enter employee ID:");
-            if(ID > 0)
-                IDs.add(ID);
-            if(IDs.size() > 0) {
                 window.close();
-                serverObject.tableChooser();
-            }
+                serverObject.home();
         });
 
         //Layout
