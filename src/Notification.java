@@ -16,18 +16,24 @@ public class Notification {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
 
-        Label infoLabel = new Label(message);
         Button submit = new Button("Ok");
         submit.setOnAction (e -> window.close());
 
-        //layout
-        VBox layout = new VBox(20, infoLabel,submit);
-        layout.setAlignment(Pos.CENTER);
-        BorderPane bp = new BorderPane();
-        bp.setCenter(layout);
-        bp.setPadding(new Insets(20,40,20,40));
+        //LAYOUT ::
+
+        //Labels
+        Label infoLabel = new Label(message);
+        //V/HBoxes
+        VBox options = new VBox(20, infoLabel,submit);
+        //Main screen
+        BorderPane screen = new BorderPane();
+        //Sets
+        screen.setCenter(options);
+        screen.setPadding(new Insets(20,40,20,40));
+        //Alignment/Padding
+        options.setAlignment(Pos.CENTER);
         //scene
-        Scene scene = new Scene(bp, 400, 150);
+        Scene scene = new Scene(screen, 400, 150);
         scene.getStylesheets().add("custom.css");
         window.setScene(scene);
         window.showAndWait();

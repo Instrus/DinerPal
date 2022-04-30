@@ -1,19 +1,15 @@
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 
+//Used in creation of making buttons. Buttons created are associated with an index.
 public class ButtonNode {
 
     Button button;
-    ToggleButton tButton; // use for employee
+    ToggleButton tButton;
     int index;
-    int ID; //for EmployeePage
+    int ID;
 
-    public void Node(Button button, int index){
-        this.button = button;
-        this.index = index;
-    }
 
-    //Button alternate.
     public void Node(ToggleButton tbutton, int index){
         this.tButton = tbutton;
         this.index = index;
@@ -26,7 +22,9 @@ public class ButtonNode {
         this.ID = ID;
     }
 
-
-
+    public void Node(Button button, int index){
+        this.button = button;
+        this.index = index;
+    }
 
 }

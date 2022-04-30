@@ -9,7 +9,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
-
 import java.util.LinkedList;
 
 public class DinerPal extends Application
@@ -18,10 +17,12 @@ public class DinerPal extends Application
     Server serverObject = new Server();
 
     //LinkedList that will hold all sign-ins.
-    static LinkedList<Integer> IDs = new LinkedList<Integer>();
+    static LinkedList<Integer> IDs = new LinkedList<>();
 
     public static void main(String[] args)
-    { launch(args); }
+    {
+        launch(args);
+    }
 
     @Override
     public void start(Stage window)
@@ -35,26 +36,28 @@ public class DinerPal extends Application
                 serverObject.home();
         });
 
-        //Layout
+        //LAYOUT::
+
         //Title
         Label dinerPalLabel = new Label("DinerPal");
         dinerPalLabel.getStyleClass().add("title-label");
-        Line line = new Line(0, 0, 900, 0);
-        line.setStrokeWidth(2.0);
+        Line line = new Line(0, 0, 900, 0); line.setStrokeWidth(2.0);
+        //V/HBoxes
         VBox title = new VBox(10, dinerPalLabel, line);
-        title.setAlignment(Pos.CENTER);
-        //ChooseServerBar
         HBox options = new HBox(50, server);
+        //Main screen
+        BorderPane screen = new BorderPane();
+        //Sets
+        screen.setTop(title); //top
+        screen.setCenter(options); //center
+        screen.setPadding(new Insets(30,0,30,0));
+        //Alighment/Padding
+        title.setAlignment(Pos.CENTER);
         options.setAlignment(Pos.CENTER);
-        //Main BorderPane
-        BorderPane mainBP = new BorderPane();
-        mainBP.setTop(title); //top
-        mainBP.setCenter(options); //center
-        mainBP.setPadding(new Insets(30,0,30,0));
         //scene
-        Scene selectionScreen = new Scene(mainBP, 900, 500);
-        selectionScreen.getStylesheets().add("custom.css");
-        window.setScene(selectionScreen);
+        Scene startScreen = new Scene(screen, 900, 500);
+        startScreen.getStylesheets().add("custom.css");
+        window.setScene(startScreen);
         window.show();
     }
 }

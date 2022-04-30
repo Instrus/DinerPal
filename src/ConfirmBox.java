@@ -1,3 +1,4 @@
+import javafx.event.Event;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -15,6 +16,7 @@ public class ConfirmBox {
     public static boolean display(String message){
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL); //blocks user from leaving window until dealt with
+        window.setOnCloseRequest(Event::consume);
 
         Label label = new Label(message);
 

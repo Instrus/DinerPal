@@ -7,65 +7,91 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
+import java.util.LinkedList;
 
 //The servers order screen.
 public class OrderScreen
 {
     Stage window = new Stage();
 
-    //Object used in this class:
-    EntreeItems entreeObject = new EntreeItems();
+    //Object(s) used in this class:
+    Entrees entreeObject = new Entrees();
+
+    LinkedList<ButtonNode> menuItemButtons = new LinkedList<>();
 
     static VBox orderView = new VBox(5);
     static double total = 0.00; //need a decimal format for total
     static Button totalButton = new Button();
     ToggleGroup tGroup = new ToggleGroup();
 
-    //updates order
+    //UPDATE ORDER() updates order
     public void updateOrder(Table reference)
-    { entreeObject.seeEntrees(reference); }
-
-    //displays order (creates buttons)
-    public void createOrderView(Table reference)
     {
-        for(int i = 0; i < reference.orders.size(); i++){
-            ToggleButton newItem = new ToggleButton(reference.orders.get(i).item);
-            tGroup.getToggles().add(newItem);
-            newItem.setMinSize(150, 30);
-            orderView.getChildren().add(newItem);
+        entreeObject.seeEntrees(reference);
+    }
+
+    //CREATEBUTTONS() goes through the cycle of creating buttons
+    public void createButtons(Table reference)
+    {
+        int size = reference.orders.size(); //size = tables orders size.
+        for(int i = 0; i < size; i++)
+        {
+            String menuItemName = reference.orders.get(i).item;
+            newButton(menuItemName, i, reference);
         }
     }
 
-    //clears orderView
-    public void clearOrderView()
-    { orderView.getChildren().clear(); }
+    //NEWBUTTON() actually makes the new button
+    public void newButton(String menuItem, int index, Table reference)
+    {
+        ButtonNode ob = new ButtonNode(); //object
+        ToggleButton newButton = new ToggleButton(String.valueOf(menuItem));
+        newButton.setMinSize(200, 30);
 
-    //updates price
-    public void updatePrice(Table reference){
+        newButton.setOnAction(event -> handleEvent(newButton, reference) ); //Working on**************
+        tGroup.getToggles().add(newButton); //add to toggle group
+
+        ob.Node(newButton, index); //create new Node
+        menuItemButtons.add(ob); //add to menuItems linked List.
+        orderView.getChildren().add(newButton); //adds to orderView
+    }
+
+    //CLEAR ORDER() clears orderView
+    public void clearOrderView()
+    {
+        orderView.getChildren().clear();
+    }
+
+    //UPDATE PRICE() updates price view
+    public void updatePriceView(Table reference)
+    {
         for(int i = 0; i < reference.orders.size(); i++)
             total += reference.orders.get(i).price;
 
         String format = String.valueOf(total);
         format = format.format("%.2f", total);
-
         String totalString = ("Total: " + format );
+
         totalButton.setText(totalString);
         totalButton.setMinSize(130,50);
     }
 
+    //CLEAR TOTAL - clears total
     public void clearTotal()
-    { total = 0.00; }
+    {
+        total = 0.00;
+    }
 
-
-    //displays menu
-    public void seeMenu(Table reference)
+    //SeeMenu - displays order screen
+    public void seeOrderScreen(Table reference)
     {
 
         Server serverObject = new Server();
-        createOrderView(reference); //updates orderView.
-        updatePrice(reference);
+        createButtons(reference); //updates orderView.
+        updatePriceView(reference);
         clearTotal();
 
+        //ENTREES button
         Button entrees = new Button("Entrees");
         entrees.setMinSize(120,50);
         entrees.setOnAction(e -> {
@@ -74,7 +100,7 @@ public class OrderScreen
             updateOrder(reference);
         });
 
-        //MENU TABS---------------------------------------------------------
+        //MENU TABS
         Button sides = new Button("Sides"); //sides
         sides.setMinSize(120,50);
         sides.setOnAction(event -> Notification.display("Coming soon") );
@@ -90,7 +116,6 @@ public class OrderScreen
         Button shots = new Button("Shots");//shots
         shots.setMinSize(120,50);
         shots.setOnAction(event -> Notification.display("Coming soon"));
-        //MENU TABS---------------------------------------------------------
 
         //BACK BUTTON - returns to tableChooser().
         Button home = new Button("Home");
@@ -103,7 +128,7 @@ public class OrderScreen
         });
 
         //Edits order - allows removal of items.
-        Button editOrder = new Button("Edit order");
+        Button editOrder = new Button("Remove Items");
         editOrder.setMinSize(130,50);
         editOrder.setOnAction(event ->
         {
@@ -112,7 +137,6 @@ public class OrderScreen
             editOrderOb.editOrder(reference);
             window.close();
         });
-
 
         //CLOSE CHECK BUTTON
         Button closeCheck = new Button("Close Check");
@@ -126,6 +150,7 @@ public class OrderScreen
                 {
                     if (reference == Server.linkedTables.get(i))
                     {
+                        reference.employeeID = -1;
                         reference.orders.clear(); //clear orders
                         reference.numOfGuests = 0; //set guests back to 0
                         clearOrderView(); //clear orderView
@@ -140,7 +165,8 @@ public class OrderScreen
         //SEND ORDER BUTTON
         Button sendOrder = new Button("Send Order");
         sendOrder.setMinSize(130,50);
-        sendOrder.setOnAction(event -> {
+        sendOrder.setOnAction(event ->
+        {
             Notification.display("Order sent to kitchen");
         });
 
@@ -188,12 +214,29 @@ public class OrderScreen
         options.setPadding(new Insets(0,70,10,70));
         screen.setPadding(new Insets(30,0,30,0));
 
-
         //scene
         Scene scene = new Scene(screen, 1000, 750);
         scene.getStylesheets().add("custom.css");
         window.setScene(scene);
         window.show();
     }
+
+    //Handles button click
+    public void handleEvent(ToggleButton button, Table ref )
+    {
+        CustomizeItem ob = new CustomizeItem();
+
+        for(int i = 0; i < menuItemButtons.size(); i++)
+        {
+            if( button.equals(menuItemButtons.get(i).tButton) )
+            {
+                System.out.println("Index = " + i);
+                System.out.println("Note: " + ref.notes.get(i));
+                ob.makeNote(ref, i); //reference, index
+            }
+        }
+
+    }
+
 }
 

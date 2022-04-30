@@ -9,20 +9,14 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 import java.util.LinkedList;
 
 public class EmployeePage
 {
-
-
     static LinkedList<ButtonNode> employees = new LinkedList<>(); //List of ButtonNodes (button + index)
     static VBox employeeView = new VBox(5); //employeeView (Vbox)
     int ID = -1;
-
-    //ToggleGroup (add all new buttons here)
     static ToggleGroup tGroup = new ToggleGroup();
-
 
     //goes through the cycle of creating buttons
     public void createButtons()
@@ -41,6 +35,7 @@ public class EmployeePage
     {
         ButtonNode ob = new ButtonNode(); //object
         ToggleButton newButton = new ToggleButton(String.valueOf(ID));
+        newButton.setMinSize(130, 30); //size of button
 
         newButton.setOnAction(event -> handleEvent(newButton) );
         tGroup.getToggles().add(newButton);
@@ -51,27 +46,34 @@ public class EmployeePage
     }
 
     public void clearEmployeeView()
-    { employeeView.getChildren().clear(); }
+    {
+        employeeView.getChildren().clear();
+    }
 
     //SET ID
     public void setID(int ID)
-    { this.ID = ID; }
+    {
+        this.ID = ID;
+    }
 
     //GET ID
     public int getID()
-    { return ID; }
+    {
+        return ID;
+    }
 
     //main page
-    public void page(){
-
+    public void page()
+    {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL); //blocks user from leaving window until dealt with
         window.setOnCloseRequest(Event::consume); //prevents from closing out without hitting submit or close.
 
-        //creates buttons for view
         createButtons();
 
-        //SUBMIT BUTTON
+        //BUTTONS::
+
+        //Submit button
         Button submit = new Button("Submit");
         submit.setOnAction(event -> {
             employees.clear();
@@ -79,7 +81,7 @@ public class EmployeePage
             window.close();
         });
 
-        //CANCEL BUTTON
+        //Cancel button
         Button cancel = new Button("Cancel");
         cancel.setOnAction(event -> {
             setID(-2);
@@ -89,38 +91,36 @@ public class EmployeePage
         });
 
 
+        //LAYOUT::
+
+        //Title
         Label empLabel = new Label("Select your ID");
-        Line line = new Line(0, 0, 350, 0);
-        line.setStrokeWidth(2.0);
+        Line line = new Line(0, 0, 350, 0); line.setStrokeWidth(2.0);
+        //V/HBoxes
+        HBox back_cancel = new HBox(10, submit, cancel);
         VBox title = new VBox(10, empLabel, line);
-        title.setAlignment(Pos.CENTER);
-
-
+        //Scrollpane
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setContent(employeeView);
-        //scrollPane.setPadding(new Insets(40,0,40,0));
-        //layout
+        //Main screen
         BorderPane screen = new BorderPane();
-        screen.setPadding(new Insets(20,0,20,0));
-        screen.setCenter(scrollPane);
-        scrollPane.setPadding(new Insets(40, 100,40,100));
+        //Sets
         screen.setTop(title);
-        employeeView.setAlignment(Pos.TOP_CENTER);
-        screen.setAlignment(employeeView, Pos.CENTER);
-
-        HBox back_cancel = new HBox(10, submit, cancel); //testing toggle here
-        back_cancel.setAlignment(Pos.CENTER);
+        screen.setCenter(scrollPane);
         screen.setBottom(back_cancel);
-
+        //Alignments/Padding
+        employeeView.setAlignment(Pos.TOP_CENTER);
+        back_cancel.setAlignment(Pos.CENTER);
+        title.setAlignment(Pos.CENTER);
+        screen.setPadding(new Insets(20,0,20,0));
+        scrollPane.setPadding(new Insets(35, 100,35,100));
         //scene
         Scene scene = new Scene(screen, 350, 550);
         scene.getStylesheets().add("custom.css");
         window.setScene(scene);
         window.showAndWait(); //THIS IS SUPER HELPFUL WHEN NEEDING TO KEEP A WINDOW OPEN BEFORE OPENING ANOTHER!!!
     }
-
-    //make un x'able later.
 
     //handles button
     public int handleEvent(ToggleButton button){

@@ -8,7 +8,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
-
 import java.util.LinkedList;
 
 //Main method for Server.
@@ -33,77 +32,96 @@ public class Server
 
     public void home()
     {
-        //Tables
+        //Tables (Buttons)
         Button table1 = new Button("Table 1"); //Table 1
-        table1.setOnAction(e -> {
+        table1.setOnAction(e ->
+        {
             handleEvent(tableOne);
         });
 
         Button table2 = new Button("Table 2"); //Table 2
-        table2.setOnAction(event -> {
+        table2.setOnAction(event ->
+        {
             handleEvent(tableTwo);
         });
 
         Button table3 = new Button("Table 3"); //Table 3
-        table3.setOnAction(event -> {
+        table3.setOnAction(event ->
+        {
             handleEvent(tableThree);
         });
 
         Button table4 = new Button("Table 4"); //Table 4
-        table4.setOnAction(event -> {
+        table4.setOnAction(event ->
+        {
             handleEvent(tableFour);
         });
 
         Button table5 = new Button("Table 5"); //Table 5
-        table5.setOnAction(event -> {
+        table5.setOnAction(event ->
+        {
             handleEvent(tableFive);
         });
 
         Button table6 = new Button("Table 6"); //Table 6
-        table6.setOnAction(event -> {
+        table6.setOnAction(event ->
+        {
             handleEvent(tableSix);
         });
 
         Button table7 = new Button("Table 7"); //Table 7
-        table7.setOnAction(event -> {
+        table7.setOnAction(event ->
+        {
             handleEvent(tableSeven);
         });
 
         Button table8 = new Button("Table 8"); //Table 8
-        table8.setOnAction(event -> {
+        table8.setOnAction(event ->
+        {
             handleEvent(tableEight);
         });
 
         Button table9 = new Button("Table 9"); //Table 9
-        table9.setOnAction(event -> {
+        table9.setOnAction(event ->
+        {
             handleEvent(tableNine);
         });
 
-        //OTHER BUTTONS:
+        //BUTTONS::
+
+        //ClockIn button
         Button clockIn= new Button("Clock in");
         clockIn.setMinSize(140,70);
-        clockIn.setOnAction(event -> {
+        clockIn.setOnAction(event ->
+        {
             handleClockIn();
         });
 
+        //ClockOut button
         Button clockOut = new Button("Clock out");
         clockOut.setMinSize(140, 70);
-        clockOut.setOnAction(event -> {
+        clockOut.setOnAction(event ->
+        {
             handleClockOut();
         });
 
-        //EMPLOYEES BUTTON
+        //Employees button (Might remove)
         Button employeesButton = new Button("Employees");
         employeesButton.setMinSize(140, 70);
-        employeesButton.setOnAction(event -> {
+        employeesButton.setOnAction(event ->
+        {
             EmployeePage pg = new EmployeePage();
             pg.page();
         });
 
+
+        //LAYOUT::
+
+        //V/HBoxes
         VBox signBox = new VBox(5,clockIn, clockOut, employeesButton); //remove TestButton later
         signBox.setPadding(new Insets(200,0,0,0));
 
-        //Styles:
+        //Table styles::
         table1.getStylesheets().removeAll("button");
         table1.getStyleClass().add("table-button");
         table2.getStyleClass().add("table-button");
@@ -114,27 +132,29 @@ public class Server
         table7.getStyleClass().add("table-button");
         table8.getStyleClass().add("table-button");
         table9.getStyleClass().add("table-button");
+
+        //title
+        Label screenLabel = new Label("DinerPal");
+        screenLabel.getStyleClass().add("title-label");
+        Line line = new Line(0, 0, 1000, 0); line.setStrokeWidth(2.0);
+        VBox title = new VBox(10, screenLabel, line);
+        //V/HBoxes
         //table rows
         HBox tableRow1 = new HBox(80, table1, table2, table3);
         HBox tableRow2 = new HBox(80, table4, table5, table6);
         HBox tableRow3 = new HBox(80, table7, table8, table9);
-        VBox tableColumns = new VBox(80, tableRow1, tableRow2, tableRow3);
-        BorderPane tables = new BorderPane(tableColumns); //all tables combines into a BorderPane
-        tables.setPadding(new Insets(120,100,100,100));
-        //Layout
+        VBox tablesCombine = new VBox(80, tableRow1, tableRow2, tableRow3);
+        //Main screen
         BorderPane screen = new BorderPane();
-        screen.setPadding(new Insets(30,0,30,0));
-        //title
-        Label screenLabel = new Label("DinerPal");
-        screenLabel.getStyleClass().add("title-label");
-        Line line = new Line(0, 0, 1000, 0);
-        line.setStrokeWidth(2.0);
-        VBox title = new VBox(10, screenLabel, line);
-        title.setAlignment(Pos.CENTER);
+        BorderPane tables = new BorderPane(tablesCombine);
         //sets
         screen.setTop(title);
         screen.setRight(tables);
         screen.setLeft(signBox);
+        //Alignment/Padding
+        title.setAlignment(Pos.CENTER);
+        tables.setPadding(new Insets(120,100,100,100));
+        screen.setPadding(new Insets(30,0,30,0));
         //scene
         Scene serverMain = new Scene(screen, 1000, 750);
         serverMain.getStylesheets().add("custom.css");
@@ -149,34 +169,28 @@ public class Server
         if (! (linkedTables.contains(reference)) )
             linkedTables.add(reference);
 
-        System.out.println("opening " + reference.tableNumber);
-
-        //if(reference.tableNumber == -1) { //will this work?
             while(reference.employeeID < 0){
                 epOb.page(); //shows employees signed in
                 reference.employeeID = epOb.getID(); //gets the new ID (from button)
 
-                if (reference.employeeID == -2) {
+                if (reference.employeeID == -2) //Used for cancel
+                {
                     reference.employeeID = -1; //reset to empty (default).
                     return;// kick us out of handle
                 }
-
-                System.out.print("ID = ");
-                System.out.println(reference.employeeID);
             }
 
-
-
-        while(reference.numOfGuests < 1) {
+        while(reference.numOfGuests < 1)
+        {
             reference.numOfGuests = GetNumber.display("Enter number of guests");
+            if(reference.numOfGuests == -2) //cancel option
+                return;
             if(reference.numOfGuests < 1){
                 Notification.display("Please enter a number greater than 0");
-                //return;
             }
         }
 
-        //reference.listOrder();
-        orderScreenObject.seeMenu(reference);
+        orderScreenObject.seeOrderScreen(reference);
         window.close();
     }
 
@@ -184,6 +198,12 @@ public class Server
     public void handleClockIn()
     {
         int ID = GetNumber.display("Enter employee ID.");
+
+        if (ID < 1)
+        {
+            Notification.display("Sign in unsuccessful.");
+            return;
+        }
 
         for(int i = 0; i < DinerPal.IDs.size(); i++) //For loop prevents duplicate ID
         {
@@ -197,10 +217,15 @@ public class Server
             DinerPal.IDs.add(ID);
     }
 
-    //need a handleClockOut()
-    public void handleClockOut(){
-
+    public void handleClockOut()
+    {
         int ID = GetNumber.display("Enter employee ID.");
+
+        if (ID < 1)
+        {
+            Notification.display("Sign out unsuccessful.");
+            return;
+        }
 
         for(int i = 0; i < DinerPal.IDs.size(); i++)
         {
@@ -213,6 +238,5 @@ public class Server
         }
         Notification.display("Sign out unsuccessful.");
     }
-
 
 }
